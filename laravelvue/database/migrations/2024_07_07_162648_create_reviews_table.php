@@ -19,9 +19,9 @@ return new class extends Migration
             // $table->foreignId('services_id');
             $table->string('user_name');
             //$table->date('booking_date')->default(now());
-            $table->timestamp('booking_time')->default(now());
+            //$table->timestamp('booking_time')->default(now());
             $table->string('services_name');
-            $table->text('note');       
+            //$table->text('note');       
             $table->enum('rate',[1,2,3,4,5]);
             $table->timestamps();
         });
