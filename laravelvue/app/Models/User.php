@@ -3,11 +3,11 @@
 namespace App\Models;
 
 
-<<<<<<< HEAD
 // test
-=======
 // ini hanya test hhhhh
->>>>>>> c4cfdbbe5a60a4541c9924dd2b0e34474408b8fe
+
+
+
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
