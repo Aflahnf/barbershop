@@ -2,12 +2,6 @@
 
 namespace App\Models;
 
-
-// test
-// ini hanya test hhhhh
-
-
-
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
