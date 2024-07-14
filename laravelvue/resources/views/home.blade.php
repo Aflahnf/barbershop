@@ -25,7 +25,7 @@
             </div>
             <div style="position:relative;right:400px;top: 200px;font-size: xxx-large;font-family: sans-serif;">
                 <p style="margin-bottom: 0rem !important;">Discover Your Best Hairstyle</p>
-                <button type="submit" class="btn btn-primary">Book Now</button>
+                <button type="button" class="btn btn-primary" onclick="location.href='/booking_form';">Book Now</button>
             </div>               
         </div>
     </div>

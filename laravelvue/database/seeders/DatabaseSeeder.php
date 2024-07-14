@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Service;
+use App\Models\Hairstylist;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,7 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        Hairstylist::factory(10)->create();
 
         // User::factory()->create([
         //     'name' => 'Test User',
@@ -39,6 +41,31 @@ class DatabaseSeeder extends Seeder
             'name' => 'Super User',
             'email' => 'user@aabb.dev',
             'password' => bcrypt('user'),
+        ]);
+
+
+        // Service Bronze
+        $bronze = Service::factory()->create([
+            'service_name' => 'Bronze',
+            'description' => 'Cut Only',
+            'price' => 100000,
+            'category' => 'Bronze',
+        ]);
+
+        // Service Bronze
+        $silver = Service::factory()->create([
+            'service_name' => 'Silver',
+            'description' => 'Cut & Wash',
+            'price' => 200000,
+            'category' => 'Silver',
+        ]);
+
+        // Service Bronze
+        $gold = Service::factory()->create([
+            'service_name' => 'Gold',
+            'description' => 'Cut, Wash, Styling, Massage & Hair Vitamin',
+            'price' => 300000,
+            'category' => 'Gold',
         ]);
     }
 }

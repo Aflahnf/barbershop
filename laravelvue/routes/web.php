@@ -14,4 +14,6 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/test', [App\Http\Controllers\ReviewController::class, 'show'])->name('example-component');
+Route::get('/booking_form', [BookingController::class, 'booking_form'])->name('booking_form');
+Route::get('/booking_list', [BookingController::class, 'list'])->name('booking.list');
+Route::post('/booking_store', [BookingController::class, 'store'])->name('booking.store');

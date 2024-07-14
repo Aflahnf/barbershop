@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id('id')->constrained()->cascadeOnDelete();
-            // $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             // $table->foreignId('services_id');
-            $table->string('user_name');
-            //$table->date('booking_date')->default(now());
-            $table->timestamp('booking_time')->default(now());
-            $table->string('services_name');
+            // $table->string('user_name');
+            $table->date('booking_date')->default(now());
+            $table->time('booking_time')->default(now());
+            $table->foreignId('service_id')->constrained()->onDelete('cascade');
+            $table->foreignId('hairstylist_id')->constrained()->onDelete('cascade');
             $table->text('note');       
             $table->enum('booking_status', ['wait','on progres']);
             $table->timestamps();

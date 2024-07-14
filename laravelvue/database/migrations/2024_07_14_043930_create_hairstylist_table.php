@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('hairstylists', function (Blueprint $table) {
             $table->id();
-            $table->string('service_name');
-            $table->string('description');
-            $table->string('image')->default(null)->change();
-            $table->string('price');
-            $table->enum('category',['Bronze', 'Silver','Gold']);
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('hairstylists');
     }
 };

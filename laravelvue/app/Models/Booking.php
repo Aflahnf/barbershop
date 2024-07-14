@@ -16,4 +16,19 @@ class Booking extends Model
         'note',
         'booking_status'
     ];
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
+
+    public function hairstylist()
+    {
+        return $this->belongsTo(Hairstylist::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
