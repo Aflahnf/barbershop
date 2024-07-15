@@ -20,3 +20,4 @@ Route::get('/booking_list/all', [BookingController::class, 'list'])->name('booki
 Route::post('/booking_store', [BookingController::class, 'store'])->name('booking.store');
 Route::get('/booking_form/{booking_id}', [BookingController::class, 'edit'])->name('booking_form.edit');
 Route::put('/booking_update/{booking_id}', [BookingController::class, 'update'])->name('booking.update');
+Route::delete('/booking_delete/{booking_id}', [BookingController::class, 'delete'])->name('booking.delete');

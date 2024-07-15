@@ -202,6 +202,27 @@ class BookingController extends Controller
 
     }
 
+
+    public function delete(string $booking_id)
+    {
+        $booking = Booking::findOrFail($booking_id);
+        
+        if (Auth::id() !== $booking->user_id and Auth::user()->name!='Super Admin') {
+            return redirect()->route('booking.list')->with('status_code', 'alert-danger')->with('error', 'You are not authorized to edit this booking.');
+        }
+
+            try {
+                $booking->delete();
+                return redirect()->route('booking.list')->with('status_code', 'alert-success')->with('status', 'Booking for '.$booking->user_id.' saved succesfully.');
+            }
+
+            catch (QueryException $e) {
+                return response()->json([
+                    'message' => 'Booking failed' . $e->errorInfo
+                ]);
+            }
+    }
+
     /**
      * Remove the specified resource from storage.
      */

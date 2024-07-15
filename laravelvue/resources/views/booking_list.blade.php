@@ -26,6 +26,7 @@
                           <th scope="col">User</th>
                           <th scope="col">Booking Status</th>
                           <th scope="col"></th>
+                          <th scope="col"></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -37,7 +38,21 @@
                               <td>{{ $booking->hairstylist->name }}</td>
                               <td>{{ $booking->user->name }}</td>
                                <td>{{ $booking->booking_status }}</td>
-                              <td><a href="/booking_form/{{ $booking->id  }}" class="btn" role="button">Edit</a></td>
+                              <td>
+                                <!-- <a href="/booking_form/{{ $booking->id  }}" class="btn" role="button">Edit</a> -->
+                                <form action="{{ route('booking_form.edit', $booking->id) }}" method="GET">
+                                    @csrf
+                                    @method('GET')
+                                    <button type="submit">Edit</button>
+                                </form>
+                              </td>
+                              <td>
+                                <form action="{{ route('booking.delete', $booking->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit">Delete</button>
+                                </form>
+                              </td>
                             </tr>
                         @endforeach
                         
