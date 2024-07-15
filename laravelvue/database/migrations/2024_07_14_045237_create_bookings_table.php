@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignId('service_id')->constrained()->onDelete('cascade');
             $table->foreignId('hairstylist_id')->constrained()->onDelete('cascade');
             $table->text('note');       
-            $table->enum('booking_status', ['wait','on progres']);
+            $table->enum('booking_status', ['wait','done']);
             $table->timestamps();
         });
     }

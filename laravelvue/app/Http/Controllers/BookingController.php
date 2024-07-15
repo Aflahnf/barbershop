@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
+
 
 class BookingController extends Controller
 {
@@ -42,7 +44,7 @@ class BookingController extends Controller
             $bookings = Booking::where('user_id', $request->user()->id)->with('service')->with('user')->with('hairstylist')->orderBy('booking_date','DESC')->orderBy('booking_time','DESC')->get();
         }    
         // dd($request->user()->name);
-        return view('booking_list', compact('bookings'));
+        return view('booking_list', compact('bookings'))->with('status_code', '')->with('status', '');
     }
 
     /**
@@ -53,7 +55,7 @@ class BookingController extends Controller
         $services = Service::all();
         $hairstylist = Hairstylist::all();
         
-        return view('booking_form', compact('services'), compact('hairstylist'));
+        return view('booking_form', compact('services','hairstylist'))->with("edit_state", false);
     }
 
     /**
@@ -68,7 +70,7 @@ class BookingController extends Controller
             // 'services_name' => ['required', 'in:Bronze,Silver,Gold'],
             'service_id' => ['required'],
             'hairstylist_id' => ['required'],
-            'booking_status' => ['required'],
+            // 'booking_status' => ['required'],
             ]);
 
             if ($validator->fails()) {
@@ -85,7 +87,7 @@ class BookingController extends Controller
                 $booking->service_id = $request->service_id;
                 $booking->hairstylist_id = $request->hairstylist_id;
                 $booking->note = $request->note;
-                $booking->booking_status = $request->booking_status;
+                $booking->booking_status = 'wait';
                 $booking->save();
 
                 $response = [
@@ -94,7 +96,7 @@ class BookingController extends Controller
                     ];
 
                     // return response()->json($response, Response::HTTP_CREATED);
-                    return redirect('booking_list');
+                    return redirect()->route('booking.list')->with('status_code', 'alert-success')->with('status', 'Booking for '.$booking->user_id.' saved succesfully.');
             }
 
             catch (QueryException $e) {
@@ -122,22 +124,39 @@ class BookingController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($booking_id)
     {
-        //
+        $booking = Booking::findOrFail($booking_id);
+
+        // Check if the authenticated user is the owner of the booking
+        if (Auth::id() !== $booking->user_id and Auth::user()->name!='Super Admin') {
+            return redirect()->route('booking.list')->with('status_code', 'alert-danger')->with('error', 'You are not authorized to edit this booking.');
+        }
+
+        $services = Service::all();
+        $hairstylist = Hairstylist::all();
+        return view('booking_form', compact('booking','services','hairstylist'))->with("edit_state", true);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $booking_id)
     {
-        $booking = Booking::findOrFail($id);
+        $booking = Booking::findOrFail($booking_id);
+
+        if (Auth::id() !== $booking->user_id and Auth::user()->name!='Super Admin') {
+            return redirect()->route('booking.list')->with('status_code', 'alert-danger')->with('error', 'You are not authorized to edit this booking.');
+        }
+
 
         $validator = Validator::make($request->all(), [
-            'user_name' => ['required'],
+            'user_id' => ['required'],
+            'booking_date' => ['required'],
             'booking_time' => ['required'],
-            'services_name' => ['required', 'in:Bronze,Silver,Gold'],
+            'service_id' => ['required'],
+            'hairstylist_id' => ['required'],
+            // 'booking_status' => ['required'],
             ]);
 
             if ($validator->fails()) {
@@ -145,13 +164,26 @@ class BookingController extends Controller
             }
 
             try {
-                $booking->update($request->all());
-                $response = [
-                    'message' => 'update booking successfully',
-                    'data' => $booking
-                    ];
+                $booking->update();
+                $booking->booking_date = $request->booking_date;
+                $booking->booking_time = $request->booking_time;
+                $booking->service_id = $request->service_id;
+                $booking->hairstylist_id = $request->hairstylist_id;
+                $booking->note = $request->note;
 
-                    return response()->json($response, Response::HTTP_OK);
+                if (Auth::user()->name == 'Super Admin'){
+                    $booking->booking_status = $request->booking_status;
+                }   
+                // dd($booking); 
+                $booking->save();
+
+                return redirect()->route('booking.list')->with('status_code', 'alert-success')->with('status', 'Booking for '.$booking->user_id.' saved succesfully.');
+                // $response = [
+                //     'message' => 'update booking successfully',
+                //     'data' => $booking
+                //     ];
+
+                //     return response()->json($response, Response::HTTP_OK);
             }
 
             catch (QueryException $e) {
@@ -159,6 +191,7 @@ class BookingController extends Controller
                     'message' => 'Booking failed' . $e->errorInfo
                 ]);
             }
+
     }
 
     /**

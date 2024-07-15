@@ -8,7 +8,11 @@
                 <div class="card-header">Booking List</div>
 
                 <div class="card-body">
-
+                    @if ($status_code!=='')
+                        <div class="alert {{ $status_code }}">
+                            {{ $status }}
+                        </div>
+                    @endif
                     <table class="table">
                       <thead>
                         <tr>
@@ -17,6 +21,7 @@
                           <th scope="col">Service</th>
                           <th scope="col">Hairstylist</th>
                           <th scope="col">User</th>
+                          <th scope="col">Booking Status</th>
                           <th scope="col"></th>
                         </tr>
                       </thead>
@@ -28,7 +33,8 @@
                               <td>{{ $booking->service->service_name }}</td>
                               <td>{{ $booking->hairstylist->name }}</td>
                               <td>{{ $booking->user->name }}</td>
-                              <td><button>Edit</button></td>
+                               <td>{{ $booking->booking_status }}</td>
+                              <td><a href="/booking_form/{{ $booking->id  }}" class="btn" role="button">Edit</a></td>
                             </tr>
                         @endforeach
                         
