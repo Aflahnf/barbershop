@@ -35,13 +35,21 @@ class BookingController extends Controller
     }
 
 
-    public function list(Request $request)
+    public function list(Request $request, $filter)
     {
         // $bookings = Booking::with('service')::orderBy('booking_date','DESC')->get();
         if ($request->user()->name == 'Super Admin'){
-            $bookings = Booking::with('service')->with('user')->with('hairstylist')->orderBy('booking_date','DESC')->orderBy('booking_time','DESC')->get();
+            if ($filter == 'all'){
+                $bookings = Booking::with('service')->with('user')->with('hairstylist')->orderBy('booking_date','DESC')->orderBy('booking_time','DESC')->get();
+            } else {
+                $bookings = Booking::where('booking_status', $filter)->with('service')->with('user')->with('hairstylist')->orderBy('booking_date','DESC')->orderBy('booking_time','DESC')->get();
+            }
         } else {
-            $bookings = Booking::where('user_id', $request->user()->id)->with('service')->with('user')->with('hairstylist')->orderBy('booking_date','DESC')->orderBy('booking_time','DESC')->get();
+            if ($filter == 'all'){
+                $bookings = Booking::where('user_id', $request->user()->id)->with('service')->with('user')->with('hairstylist')->orderBy('booking_date','DESC')->orderBy('booking_time','DESC')->get();
+            } else {
+                $bookings = Booking::where('user_id', $request->user()->id)->where('booking_status', $filter)->with('service')->with('user')->with('hairstylist')->orderBy('booking_date','DESC')->orderBy('booking_time','DESC')->get();
+            }
         }    
         // dd($request->user()->name);
         return view('booking_list', compact('bookings'))->with('status_code', '')->with('status', '');

@@ -26,7 +26,7 @@
                 <a class="navbar-brand" href="{{ url('/booking_form') }}">
                     Booking
                 </a>
-                <a class="navbar-brand" href="{{ url('/booking_list') }}">
+                <a class="navbar-brand" href="{{ url('/booking_list/all') }}">
                     List
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

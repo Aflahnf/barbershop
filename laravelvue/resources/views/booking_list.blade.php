@@ -5,7 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Booking List</div>
+                <div class="card-header">
+                    <div style="float:left">Booking List</div>
+                    <div style="float:right">Order Status : <a href="{{ url('/booking_list/all') }}">All</a> | <a href="{{ url('/booking_list/wait') }}">Wait</a> | <a href="{{ url('/booking_list/done') }}">Done</a></div>
+                </div>
 
                 <div class="card-body">
                     @if ($status_code!=='')

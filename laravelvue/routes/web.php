@@ -15,7 +15,8 @@ Route::get('/', function () {
 });
 
 Route::get('/booking_form', [BookingController::class, 'booking_form'])->name('booking_form');
-Route::get('/booking_list', [BookingController::class, 'list'])->name('booking.list');
+Route::get('/booking_list/{filter}', [BookingController::class, 'list'])->name('booking.list');
+Route::get('/booking_list/all', [BookingController::class, 'list'])->name('booking.list');
 Route::post('/booking_store', [BookingController::class, 'store'])->name('booking.store');
 Route::get('/booking_form/{booking_id}', [BookingController::class, 'edit'])->name('booking_form.edit');
 Route::put('/booking_update/{booking_id}', [BookingController::class, 'update'])->name('booking.update');
